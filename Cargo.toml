@@ -1,0 +1,13 @@
+[package]
+name = "mega-sdk"
+version = "0.1.0-alpha"
+edition = "2021"
+authors = ["FssAy"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+libc = "0.2.116"
+sharedlib = "7.0.0"
+paste = "1.0.6"

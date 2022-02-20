@@ -1,0 +1,8 @@
+/target
+Cargo.lock
+
+/.idea
+/thirdparty
+mega-dll.lib
+mega-sdk.iml
+megadll-Debug.lnk
