@@ -1,5 +1,11 @@
 use crate::binds::listeners::{RequestListenerTrigger, TransferListenerTrigger};
 
+macro_rules! addr_of {
+    ($target:expr) => {
+        ($target as *const ()) as usize
+    };
+}
+
 macro_rules! create_api_listener {
     ($name:ident, $initialization:tt) => {
         paste::item! {
@@ -54,19 +60,19 @@ macro_rules! create_api_listener {
 
 create_api_listener!(RequestListener, {
     crate::binds::listeners::init_listener(
-        (T::on_request_start as *const ()) as usize,
-        (T::on_request_update as *const ()) as usize,
-        (T::on_request_finish as *const ()) as usize,
-        (T::on_request_err as *const ()) as usize,
+        addr_of!(T::on_request_start),
+        addr_of!(T::on_request_update),
+        addr_of!(T::on_request_finish),
+        addr_of!(T::on_request_err),
     )
 });
 
 create_api_listener!(TransferListener, {
     crate::binds::listeners::transfer_init_listener(
-        (T::on_transfer_start as *const ()) as usize,
-        (T::on_transfer_finish as *const ()) as usize,
-        (T::on_transfer_update as *const ()) as usize,
-        (T::on_transfer_temp_error as *const ()) as usize,
-        (T::on_transfer_data as *const ()) as usize,
+        addr_of!(T::on_transfer_start),
+        addr_of!(T::on_transfer_finish),
+        addr_of!(T::on_transfer_update),
+        addr_of!(T::on_transfer_temp_error),
+        addr_of!(T::on_transfer_data),
     )
 });
