@@ -8,8 +8,8 @@ This is a private crate which won't work without the custom Mega SDK wrapper. <b
 - [x] Listening for requests
 - [x] Creating folders
 - [ ] Downloading files
-- [ ] Uploading files
-- [ ] Listening for transfers
+- [x] Uploading files
+- [x] Listening for transfers
 
 ## Roadmap
 - Error handling on lower and higher level
