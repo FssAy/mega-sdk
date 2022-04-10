@@ -4,14 +4,13 @@ mod nodes;
 mod request;
 mod user_handle;
 
-use crate::api::listeners::TransferListener;
 use crate::api::nodes::list::NodeList;
 use crate::api::nodes::Node;
 use crate::binds;
 use crate::binds::{LoggedStatus, MegaApi};
 pub use builder::ApiBuilder;
 use libc::c_char;
-pub use listeners::RequestListener;
+pub use listeners::{RequestListener, TransferListener};
 pub use request::Request;
 use std::ffi::CString;
 use std::mem::transmute;
@@ -51,9 +50,9 @@ impl Api {
     }
 
     /// mega::MegaApi::getNodeByPath
-    pub fn get_node(&self, path: impl ToString, base_node: Option<Node>) -> Node {
+    pub fn get_node(&self, path: impl ToString, base_node: Option<&Node>) -> Node {
         let path = CString::new(path.to_string()).unwrap();
-        let base_node = base_node.map_or(null_mut(), |node| node.ptr);
+        let base_node = base_node.map_or(self.get_root_node().ptr, |node| node.ptr);
 
         Node {
             ptr: unsafe { binds::get_node(self.ptr, path.as_ptr(), base_node) },
@@ -143,3 +142,6 @@ impl From<*mut binds::MegaApi> for Api {
         Self { ptr }
     }
 }
+
+/// TEMPORARY
+unsafe impl Sync for Api {}

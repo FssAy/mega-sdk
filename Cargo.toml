@@ -1,6 +1,6 @@
 [package]
 name = "mega-sdk"
-version = "0.1.1-alpha"
+version = "0.2.0-mess"
 edition = "2021"
 authors = ["FssAy"]
 
@@ -11,3 +11,18 @@ crate-type = ["cdylib"]
 libc = "0.2.116"
 sharedlib = "7.0.0"
 paste = "1.0.6"
+lazy_static = "1.4.0"
+
+[dependencies.bucket]
+path = "E:\\IdeaProjects\\bucket"
+
+[dependencies.tokio]
+version = "1.17.0"
+features = ["full"]
+
+[dependencies.winapi]
+version = "0.3.9"
+features = ["winbase"]
+
+[dev-dependencies]
+dotenv = "0.15.0"

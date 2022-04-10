@@ -1,13 +1,17 @@
 use super::error::MegaError;
 use super::MegaApi;
-use libc::{c_char, size_t};
+use libc::{c_char, size_t, uint64_t};
 use std::ffi::c_void;
+use bucket::Bucket;
+use tokio::sync::oneshot;
+use crate::api_async::requests::RequestOutput;
 
 pub(crate) type MegaRequestListener = c_void;
 
 pub(crate) type MegaRequest = c_void;
 
 #[repr(i32)]
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum RequestType {
     Login = 0,
     CreateFolder = 1,
@@ -162,6 +166,7 @@ pub enum RequestType {
 
 pub trait RequestListenerTrigger {
     unsafe extern "C" fn on_request_start(
+        _: *mut Self,
         _: *mut MegaRequestListener,
         _: *mut MegaApi,
         _: *mut MegaRequest,
@@ -169,6 +174,7 @@ pub trait RequestListenerTrigger {
     }
 
     unsafe extern "C" fn on_request_finish(
+        _: *mut Bucket<oneshot::Sender<RequestOutput>>,
         _: *mut MegaRequestListener,
         _: *mut MegaApi,
         _: *mut MegaRequest,
@@ -177,6 +183,7 @@ pub trait RequestListenerTrigger {
     }
 
     unsafe extern "C" fn on_request_update(
+        _: *mut Self,
         _: *mut MegaRequestListener,
         _: *mut MegaApi,
         _: *mut MegaRequest,
@@ -184,6 +191,7 @@ pub trait RequestListenerTrigger {
     }
 
     unsafe extern "C" fn on_request_err(
+        _: *mut Self,
         _: *mut MegaRequestListener,
         _: *mut MegaApi,
         _: *mut MegaRequest,
@@ -198,10 +206,15 @@ extern "C" {
 
     pub(crate) fn req_to_string(request: *mut MegaRequest) -> *const c_char;
 
-    pub(crate) fn init_listener(
+    pub(crate) fn request_get_node_handle(request: *mut MegaRequest) -> u64;
+
+    pub(crate) fn request_init_listener(
+        slf: *mut (),
         ors: size_t,
         oru: size_t,
         orf: size_t,
         ore: size_t,
     ) -> *mut MegaRequestListener;
+
+    pub(crate) fn request_size() -> size_t;
 }

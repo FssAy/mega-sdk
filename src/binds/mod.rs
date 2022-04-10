@@ -4,7 +4,7 @@ pub(crate) mod request;
 pub(crate) mod transfer;
 pub(crate) mod listeners {
     pub use super::request::RequestListenerTrigger;
-    pub(crate) use super::request::{init_listener, MegaRequestListener};
+    pub(crate) use super::request::{request_init_listener, MegaRequestListener};
     pub use super::transfer::TransferListenerTrigger;
     pub(crate) use super::transfer::{transfer_init_listener, MegaTransferListener};
 }
@@ -55,6 +55,8 @@ extern "C" {
         path: *const c_char,
         n: *mut MegaNode,
     ) -> *mut MegaNode;
+
+    pub(crate) fn get_node_by_handle(api: *mut MegaApi, handle: u64) -> *mut MegaNode;
 
     pub(crate) fn fetch_nodes(api: *mut MegaApi, listener: *mut MegaRequestListener);
 

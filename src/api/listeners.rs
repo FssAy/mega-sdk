@@ -59,7 +59,7 @@ macro_rules! create_api_listener {
 }
 
 create_api_listener!(RequestListener, {
-    crate::binds::listeners::init_listener(
+    crate::binds::listeners::request_init_listener(
         addr_of!(T::on_request_start),
         addr_of!(T::on_request_update),
         addr_of!(T::on_request_finish),
