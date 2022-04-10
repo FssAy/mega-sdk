@@ -1,17 +1,4 @@
-# mega-sdk [Alpha]
+# mega-sdk [Mess]
 Rust bindings with high abstraction layer for my own [Mega SDK](https://github.com/meganz/sdk) wrapper.
 
-This is a private crate which won't work without the custom Mega SDK wrapper. <br>
-
-## Tested Features
-- [x] Logging in
-- [x] Listening for requests
-- [x] Creating folders
-- [ ] Downloading files
-- [x] Uploading files
-- [x] Listening for transfers
-
-## Roadmap
-- Error handling on lower and higher level
-- Implement Tokio for networking
-- idk, add more features
+This branch is a "code mess" that I have to upload before any correction or refactoring.
